@@ -1,0 +1,11 @@
+{
+  "services": [
+    {
+      "name": "Microservice1",
+      "port": 5001,
+      "path": "C:\\inetpub\\Microservice1",
+      "connectionString": "Server=...;Database=...;",
+      "apiEndpoint": "http://localhost:5001/api"
+    }
+  ]
+}
