@@ -5,7 +5,7 @@ namespace DeployBuddy.Services
 {
     public class PermissionSetter
     {
-        public void GrantIISAccess(string folderPath)
+        public static void GrantIISAccess(string folderPath)
         {
             var dirInfo = new DirectoryInfo(folderPath);
             var dirSecurity = dirInfo.GetAccessControl();
