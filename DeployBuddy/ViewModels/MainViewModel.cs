@@ -3,6 +3,7 @@ using DeployBuddy.Services;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net.Http;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,6 +15,7 @@ namespace DeployBuddy.ViewModels
         public ObservableCollection<string> Logs { get; set; } = new();
         public ICommand LoadConfigCommand { get; }
         public ICommand DeployCommand { get; }
+        public ICommand HealthCheckCommand { get; }
 
         private readonly IISManager _iisManager = new();
         private readonly ConfigLoader _configLoader = new();
@@ -72,6 +74,19 @@ namespace DeployBuddy.ViewModels
             }
         }
 
+        public async Task<bool> IsSwaggerAvailableAsync(string url)
+        {
+            try
+            {
+                using var client = new HttpClient();
+                var response = await client.GetAsync(url);
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public void Log(string message)
         {

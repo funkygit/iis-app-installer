@@ -13,5 +13,6 @@ namespace DeployBuddy.Models
         public string Path { get; set; }
         public string ConnectionString { get; set; }
         public string ApiEndpoint { get; set; }
+        public bool PingSuccessful { get; set; }
     }
 }
