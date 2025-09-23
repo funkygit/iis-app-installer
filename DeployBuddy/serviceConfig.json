@@ -1,11 +1,21 @@
 {
   "services": [
     {
-      "name": "Microservice1",
+      "name": "UserService",
       "port": 5001,
-      "path": "C:\\inetpub\\Microservice1",
-      "connectionString": "Server=...;Database=...;",
-      "apiEndpoint": "http://localhost:5001/api"
+      "path": "C:\\inetpub\\UserService",
+      "connectionString": "Server=...;Database=UserDb;",
+      "apiEndpoint": "http://localhost:{port}/api"
+    },
+    {
+      "name": "OrderService",
+      "port": 5002,
+      "path": "C:\\inetpub\\OrderService",
+      "connectionString": "Server=...;Database=OrderDb;",
+      "apiEndpoint": "http://localhost:{port}/api",
+      "dependencies": {
+        "UserService": "http://localhost:{UserService.port}/api"
+      }
     }
   ]
 }

@@ -33,6 +33,8 @@ namespace DeployBuddy.ViewModels
                 Services.Clear();
                 foreach (var svc in config.Services)
                     Services.Add(svc);
+
+                CheckPortConflicts(config.Services.Select(s => s.Port));
             }
         }
 
@@ -51,6 +53,25 @@ namespace DeployBuddy.ViewModels
                 }
             }
         }
+
+        private void CheckPortConflicts(IEnumerable<int> ports)
+        {
+            var scanner = new PortScanner();
+            var conflicts = scanner.GetConflictingPorts(ports);
+
+            if (conflicts.Any())
+            {
+                foreach (var port in conflicts)
+                    Logger.Log($"⚠️ Port {port} is already in use by another IIS site.");
+
+                MessageBox.Show("Some ports are already in use. Please resolve conflicts before deploying.", "Port Conflict", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                Logger.Log("✅ All required ports are available.");
+            }
+        }
+
 
         public void Log(string message)
         {
