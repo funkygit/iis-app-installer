@@ -13,9 +13,21 @@
       "path": "C:\\inetpub\\OrderService",
       "connectionString": "Server=...;Database=OrderDb;",
       "apiEndpoint": "http://localhost:{port}/api",
-      "dependencies": {
-        "UserService": "http://localhost:{UserService.port}/api"
-      }
+      "configuration": [
+        {
+          "file": "appsettings.json",
+          "variables": [
+            {
+              "name": "GatewayPort",
+              "value": "{Gateway.Port}"
+            },
+            {
+              "name": "UserServiceUrl",
+              "value": "http://localhost:{UserService.Port}/api"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

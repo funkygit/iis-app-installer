@@ -1,4 +1,8 @@
-﻿namespace DeployBuddy.Services
+﻿using System.IO;
+using System.IO.Compression;
+using System.Reflection;
+
+namespace DeployBuddy.Services
 {
     public class ZipExtractor
     {

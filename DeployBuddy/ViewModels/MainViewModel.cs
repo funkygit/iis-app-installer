@@ -93,6 +93,27 @@ namespace DeployBuddy.ViewModels
             Application.Current.Dispatcher.Invoke(() => Logs.Add(message));
         }
 
+        private void UpdateConfigs()
+        {
+            foreach (var svc in Services)
+            {
+                var resolver = new VariableResolver(Services);
+
+                foreach (var cfg in svc.Configuration ?? Enumerable.Empty<ConfigInjection>())
+                {
+                    string filePath = Path.Combine(svc.Path, cfg.File);
+                    string content = File.ReadAllText(filePath);
+
+                    var variableMap = cfg.Variables.ToDictionary(v => v.Name, v => v.Value);
+                    string updated = resolver.ReplaceNamedVariables(content, variableMap);
+
+                    File.WriteAllText(filePath, updated);
+                    Logger.Log($"✅ Injected variables into {cfg.File} for {svc.Name}");
+                }
+            }
+
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
